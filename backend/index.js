@@ -1,7 +1,10 @@
 const express = require('express');
 const request = require('request');
+const cors = require('cors');
 
 const app = express();
+
+app.use(cors());
 
 const products = [];
 
@@ -23,6 +26,10 @@ const products = [];
       console.log(error.response.body);
    }
  })().then(() => {
+   app.get('/products', (req, res) => {
+      res.send(products);
+   });
+
    app.get('/products/:keyword', (req, res) => {
       res.send(products.filter(el => {
          return el.title.toLowerCase().search(req.params.keyword.toLocaleLowerCase()) != -1
